@@ -5,7 +5,16 @@ import (
 	"fmt"
 	"os"
 	"queue"
+	"stack"
 )
+
+// TODO make all data structures deal with a struct instead of ints
+// i.e.
+/*type Item struct {
+	cargo int
+}
+func (i *Item) getCargo() int {...
+*/
 
 type module interface {
 	Run()
@@ -54,8 +63,8 @@ func runModule(name string) {
 		bag.Run()
 	case "queue":
 		queue.Run()
-		/*	case "stack":
-			stack.Run()*/
+	case "stack":
+		stack.Run()
 	}
 }
 

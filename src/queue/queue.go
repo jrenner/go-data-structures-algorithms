@@ -27,7 +27,7 @@ func (q *Queue) enqueue(item int) {
 // remove the least recently added item
 func (q *Queue) dequeue() int {
 	if (q.isEmpty()) {
-		fmt.Println("queue is empty")
+		fmt.Println("queue has no items to dequeue!")
 		os.Exit(1)
 	}
 	removal := q.items[0]

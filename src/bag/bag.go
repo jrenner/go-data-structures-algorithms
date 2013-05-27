@@ -5,17 +5,18 @@ import (
 	"math/rand"
 	"time"
 	"math"
+	. "item"
 )
 
-const BAG_SIZE = 20000
+const BAG_SIZE = 20
 const MAX_INT = 100
 
 // bag of integers
 type Bag struct {
-	items []int
+	items []ItemInt
 }
 
-func (b *Bag) add(item int) {
+func (b *Bag) add(item ItemInt) {
 	b.items = append(b.items, item)
 }
 
@@ -39,13 +40,13 @@ func Run() {
 	bag := create()
 	fmt.Println("created bag of size:", bag.size())
 	for _, item := range bag.items {
-		sum += float64(item)
+		sum += float64(item.Cargo)
 	}
 	mean = sum / float64(bag.size())
 
 	sum = 0
 	for _, item := range bag.items {
-		sum += math.Pow(float64(item) - mean, 2)
+		sum += math.Pow(float64(item.Cargo) - mean, 2)
 	}
 	stdDev = math.Sqrt(float64(sum) / float64(bag.size() - 1))
 
@@ -56,7 +57,8 @@ func Run() {
 func create() *Bag {
 	bag := new(Bag)
 	for i := 0; i < BAG_SIZE; i++ {
-		bag.add(rand.Intn(MAX_INT + 1))
+		item := ItemInt{rand.Intn(MAX_INT + 1)}
+		bag.add(item)
 	}
 	return bag
 }

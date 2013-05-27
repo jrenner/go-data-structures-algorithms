@@ -21,6 +21,7 @@ type module interface {
 }
 
 var (
+	runAll     = false
 	moduleName string
 	validNames = []string{
 		"bag",
@@ -47,17 +48,22 @@ func printValidModuleNames() {
 func init() {
 	if len(os.Args) < 2 {
 		fmt.Println("please supply module name as first argument.")
-		os.Exit(1)
 	}
-	moduleName = os.Args[1]
-	if !isModuleNameValid(moduleName) {
-		fmt.Printf("modulename '%s' is not valid, valid names are:\n", moduleName)
-		printValidModuleNames()
-		os.Exit(1)
+	if os.Args[1] == "all" {
+		runAll = true
+	} else {
+		moduleName = os.Args[1]
+		if !isModuleNameValid(moduleName) {
+			fmt.Printf("modulename '%s' is not valid, valid names are:\n", moduleName)
+			printValidModuleNames()
+			os.Exit(1)
+		}
 	}
 }
 
 func runModule(name string) {
+	fmt.Println("running module: " + name)
+	printSeparator()
 	switch name {
 	case "bag":
 		bag.Run()
@@ -68,7 +74,37 @@ func runModule(name string) {
 	}
 }
 
+func printSeparator() {
+	fmt.Println("------------------------------")
+}
+
+// for running modules one after another
+func runSeriesModule(name string) {
+	runModule(name)
+	fmt.Print("press any key to continue with next module: ")
+	inputBuff := make([]byte, 256)
+	for {
+		n, _ := os.Stdin.Read(inputBuff)
+		if n > 0 {
+			break
+			fmt.Print("\n")
+		}
+	}
+	printSeparator()
+}
+
+func runAllModules() {
+	fmt.Println("running all modules:")
+	printSeparator()
+	runSeriesModule("bag")
+	runSeriesModule("queue")
+	runSeriesModule("stack")
+}
+
 func main() {
-	fmt.Println("trying to run module: " + moduleName)
-	runModule(moduleName)
+	if runAll {
+		runAllModules()
+	} else {
+		runModule(moduleName)
+	}
 }

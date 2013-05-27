@@ -2,9 +2,9 @@ package stack
 
 import (
 	"fmt"
-	"os"
 	"math/rand"
 	"time"
+	. "item"
 )
 
 const (
@@ -14,19 +14,17 @@ const (
 
 // stack of integers (LIFO)
 type Stack struct {
-	items []int
+	items []*ItemInt
 }
 
-func (s *Stack) push(item int) {
+func (s *Stack) push(item *ItemInt) {
 	s.items = append(s.items, item)
-	fmt.Println("added: ", item)
 }
 
 // remove most recently added item
-func (s *Stack) pop() int {
+func (s *Stack) pop() *ItemInt {
 	if s.isEmpty() {
-		fmt.Printf("stack has no items to pop!\n")
-		os.Exit(1)
+	    return nil
 	}
 	removal := s.items[len(s.items) - 1]
 	s.items = s.items[:len(s.items) - 1]
@@ -47,7 +45,8 @@ func (s *Stack) size() int {
 func create() *Stack {
 	s := new(Stack)
 	for i := 0; i < STACK_SIZE; i++ {
-		s.push(rand.Intn(MAX_INT + 1))
+		item := &ItemInt{rand.Intn(MAX_INT + 1)}
+		s.push(item)
 	}
 	return s
 }
@@ -61,15 +60,29 @@ func Run() {
 		item := s.pop()
 		fmt.Printf("popped from stack: %v\n", item)
 	}
-	a := 1
-	b := 2
-	c := 3
+	a := &ItemInt{1}
+	b := &ItemInt{2}
+	c := &ItemInt{3}
 	fmt.Printf("adding %v, %v and %v to the stack\n", a, b, c)
 	s.push(a)
 	s.push(b)
 	s.push(c)
 	fmt.Println("emptying stack:")
 	for {
-		fmt.Printf("popped from stack: %v\n", s.pop())
+		popped := s.pop()
+		if (popped == nil) {
+			fmt.Println("stack has no items to pop!")
+			break;
+		} else {
+			fmt.Printf("popped from stack: %v\n", s.pop())
+		}
 	}
 }
+
+
+// Djikstra's Two-Stack Algorithm for Expression Evaluation
+/*func djikstraEvaluation() {
+	fmt.Println("running Djikstra's Two-Stack Algorithm for Expression Evaluation")
+	testCase := "5 - (4 - 2)"
+
+}*/

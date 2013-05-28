@@ -3,6 +3,7 @@ package main
 import (
 	"bag"
 	"fmt"
+	"linked_list"
 	"os"
 	"queue"
 	"stack"
@@ -27,6 +28,7 @@ var (
 		"bag",
 		"queue",
 		"stack",
+		"linked_list",
 	}
 )
 
@@ -68,6 +70,8 @@ func runModule(name string) {
 		queue.Run()
 	case "stack":
 		stack.Run()
+	case "linked_list":
+		linked_list.Run()
 	}
 }
 
@@ -93,9 +97,9 @@ func runSeriesModule(name string) {
 func runAllModules() {
 	fmt.Println("running all modules:")
 	printSeparator()
-	runSeriesModule("bag")
-	runSeriesModule("queue")
-	runModule("stack")
+	for _, moduleName := range validNames {
+		runSeriesModule(moduleName)
+	}
 }
 
 func main() {

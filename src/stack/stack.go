@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math/rand"
 	"time"
-	. "item"
 )
 
 const (
@@ -14,15 +13,15 @@ const (
 
 // stack of integers (LIFO)
 type Stack struct {
-	items []*ItemInt
+	items []interface{}
 }
 
-func (s *Stack) push(item *ItemInt) {
+func (s *Stack) push(item interface{}) {
 	s.items = append(s.items, item)
 }
 
 // remove most recently added item
-func (s *Stack) pop() *ItemInt {
+func (s *Stack) pop() interface{} {
 	if s.isEmpty() {
 	    return nil
 	}
@@ -53,7 +52,7 @@ func (s *Stack) String() string {
 func create() *Stack {
 	s := new(Stack)
 	for i := 0; i < STACK_SIZE; i++ {
-		item := &ItemInt{rand.Intn(MAX_INT + 1)}
+		item := rand.Intn(MAX_INT + 1)
 		s.push(item)
 	}
 	return s
@@ -68,9 +67,9 @@ func Run() {
 		item := s.pop()
 		fmt.Printf("popped from stack: %v\n", item)
 	}
-	a := &ItemInt{1}
-	b := &ItemInt{2}
-	c := &ItemInt{3}
+	a := 1
+	b := 2
+	c := 3
 	fmt.Printf("adding %v, %v and %v to the stack\n", a, b, c)
 	s.push(a)
 	s.push(b)

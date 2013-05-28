@@ -5,30 +5,28 @@ import (
 	"math/rand"
 	"os"
 	"time"
-	. "item"
 )
 
-const QUEUE_SIZE = 5;
-const MAX_INT = 100;
+const (
+	QUEUE_SIZE = 5;
+	MAX_INT = 100;
+)
 
-
-
-
-// FIFO queue
 type Queue struct {
-	items []ItemInt
+	items []interface{}
 }
+
 
 func (q *Queue) size() int {
 	return len(q.items)
 }
 
-func (q *Queue) enqueue(item *ItemInt) {
-	q.items = append(q.items, *item)
+func (q *Queue) enqueue(item interface{}) {
+	q.items = append(q.items, item)
 }
 
 // remove the least recently added item
-func (q *Queue) dequeue() *ItemInt {
+func (q *Queue) dequeue() interface{} {
 	if (q.isEmpty()) {
 		fmt.Println("queue has no items to dequeue!")
 		os.Exit(1)
@@ -56,7 +54,7 @@ func (q *Queue) String() string {
 func create() *Queue {
 	q := new(Queue)
 	for i := 0; i < QUEUE_SIZE; i++ {
-		item := &ItemInt{rand.Intn(MAX_INT + 1)}
+		item :=rand.Intn(MAX_INT + 1)
 		q.enqueue(item)
 	}
 	return q

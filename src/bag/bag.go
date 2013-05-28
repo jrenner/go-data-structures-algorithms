@@ -8,7 +8,7 @@ import (
 	. "item"
 )
 
-const BAG_SIZE = 20
+const BAG_SIZE = 10
 const MAX_INT = 100
 
 // bag of integers
@@ -31,6 +31,14 @@ func (b *Bag) isEmpty() bool {
 	return false
 }
 
+func (b *Bag) String() string {
+	out := "bag contents:"
+	for i, item := range b.items {
+		out += fmt.Sprintf("\n[%d]: %3v", i, item)
+	}
+	return out
+}
+
 func Run() {
 	var sum float64
 	var mean float64
@@ -38,7 +46,7 @@ func Run() {
 	rand.Seed(time.Now().UnixNano())
 
 	bag := create()
-	fmt.Println("created bag of size:", bag.size())
+	fmt.Println(bag)
 	for _, item := range bag.items {
 		sum += float64(item.Cargo)
 	}

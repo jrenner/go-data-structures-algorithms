@@ -8,8 +8,8 @@ import (
 	. "item"
 )
 
-const QUEUE_SIZE = 10;
-const MAX_INT = 10;
+const QUEUE_SIZE = 5;
+const MAX_INT = 100;
 
 
 
@@ -25,7 +25,6 @@ func (q *Queue) size() int {
 
 func (q *Queue) enqueue(item *ItemInt) {
 	q.items = append(q.items, *item)
-	//fmt.Println("added:", item)
 }
 
 // remove the least recently added item
@@ -46,6 +45,14 @@ func (q *Queue) isEmpty() bool {
 	return false
 }
 
+func (q *Queue) String() string {
+	out := "queue contents:"
+	for i, item := range q.items {
+		out += fmt.Sprintf("\n[%d]: %3v", i, item)
+	}
+	return out
+}
+
 func create() *Queue {
 	q := new(Queue)
 	for i := 0; i < QUEUE_SIZE; i++ {
@@ -58,10 +65,10 @@ func create() *Queue {
 func Run() {
 	rand.Seed(time.Now().UnixNano())
 	q := create()
-	fmt.Printf("created queue of size: %d\n", q.size())
+	fmt.Println(q)
 	fmt.Println("removing items from queue, oldest first (FIFO)")
 	for _, item := range q.items {
-		fmt.Printf("%v\n", item)
+		fmt.Printf("deqeued: %v\n", item)
 	}
 
 }

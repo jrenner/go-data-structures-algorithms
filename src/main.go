@@ -46,17 +46,14 @@ func printValidModuleNames() {
 }
 
 func init() {
-	if len(os.Args) < 2 {
-		fmt.Println("please supply module name as first argument.")
-	}
-	if os.Args[1] == "all" {
+	if len(os.Args) < 2 || os.Args[1] == "all" {
 		runAll = true
 	} else {
 		moduleName = os.Args[1]
 		if !isModuleNameValid(moduleName) {
 			fmt.Printf("modulename '%s' is not valid, valid names are:\n", moduleName)
 			printValidModuleNames()
-			os.Exit(1)
+			os.Exit(0)
 		}
 	}
 }
@@ -98,7 +95,7 @@ func runAllModules() {
 	printSeparator()
 	runSeriesModule("bag")
 	runSeriesModule("queue")
-	runSeriesModule("stack")
+	runModule("stack")
 }
 
 func main() {

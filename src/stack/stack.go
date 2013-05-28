@@ -8,8 +8,8 @@ import (
 )
 
 const (
- 	STACK_SIZE = 10
-	MAX_INT = 10
+ 	STACK_SIZE = 5
+	MAX_INT = 100
 )
 
 // stack of integers (LIFO)
@@ -42,6 +42,14 @@ func (s *Stack) size() int {
 	return len(s.items)
 }
 
+func (s *Stack) String() string {
+	out := "stack contents:"
+	for i, item := range s.items {
+		out += fmt.Sprintf("\n[%d]: %3v", i, item)
+	}
+	return out
+}
+
 func create() *Stack {
 	s := new(Stack)
 	for i := 0; i < STACK_SIZE; i++ {
@@ -67,6 +75,8 @@ func Run() {
 	s.push(a)
 	s.push(b)
 	s.push(c)
+
+	fmt.Println(s)
 	fmt.Println("emptying stack:")
 	for {
 		popped := s.pop()
@@ -74,15 +84,7 @@ func Run() {
 			fmt.Println("stack has no items to pop!")
 			break;
 		} else {
-			fmt.Printf("popped from stack: %v\n", s.pop())
+			fmt.Printf("popped from stack: %v\n", popped)
 		}
 	}
 }
-
-
-// Djikstra's Two-Stack Algorithm for Expression Evaluation
-/*func djikstraEvaluation() {
-	fmt.Println("running Djikstra's Two-Stack Algorithm for Expression Evaluation")
-	testCase := "5 - (4 - 2)"
-
-}*/

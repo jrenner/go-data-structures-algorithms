@@ -7,15 +7,8 @@ import (
 	"os"
 	"queue"
 	"stack"
+	"union_find"
 )
-
-// TODO make all data structures deal with a struct instead of ints
-// i.e.
-/*type Item struct {
-	cargo int
-}
-func (i *Item) getCargo() int {...
-*/
 
 type module interface {
 	Run()
@@ -29,6 +22,7 @@ var (
 		"queue",
 		"stack",
 		"linked_list",
+		"union_find",
 	}
 )
 
@@ -72,6 +66,8 @@ func runModule(name string) {
 		stack.Run()
 	case "linked_list":
 		linked_list.Run()
+	case "union_find":
+		union_find.Run()
 	}
 }
 
@@ -100,6 +96,7 @@ func runAllModules() {
 	for _, moduleName := range validNames {
 		runSeriesModule(moduleName)
 	}
+	fmt.Println("no more modules to run.\nExiting...")
 }
 
 func main() {

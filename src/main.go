@@ -91,6 +91,10 @@ func runSeriesModule(name string) {
 }
 
 func runAllModules() {
+	printSeparator()
+	fmt.Println("Run a module individually by supplying it as an argument:")
+	printValidModuleNames()
+	printSeparator()
 	fmt.Println("running all modules:")
 	printSeparator()
 	for _, moduleName := range validNames {

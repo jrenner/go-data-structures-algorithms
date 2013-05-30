@@ -13,6 +13,7 @@ var dataSet = []int{ // 2 component groups
 	4, 3,
 	3, 8,
 	6, 5,
+	5, 6,
 	9, 4,
 	2, 1,
 	5, 0,
@@ -36,48 +37,91 @@ func createUF() *UF{
 }
 
 
-// quick find implementation ---------------------
-func quickFind(uf *UF) {
-	for i := 0; i < UF_SIZE; i = i + 2 {
+// quick find implementation
+
+type quickFind struct {
+	*UF
+}
+
+func (qf *quickFind) execute() {
+	for i := 0; i < len(dataSet); i = i + 2 {
 		p := dataSet[i]
 		q := dataSet[i+1]
-		if uf.QF_connected(p, q) {
-			continue
-		}
-		uf.QF_union(p, q)
-		fmt.Println("union:", p, q)
+		qf.union(p, q)
 	}
-	fmt.Println(uf.count, "components in data set")
+	fmt.Println(qf.count, "components in data set")
 }
 
-func (uf *UF) QF_find(p int) int {
-	return uf.id[p]
+func (qf *quickFind) find(p int) int {
+	return qf.id[p]
 }
 
-func (uf *UF) QF_union(p, q int) {
+func (qf *quickFind) union(p, q int) {
 	// put p and q together
-	pID := uf.QF_find(p)
-	qID := uf.QF_find(q)
+	pID := qf.find(p)
+	qID := qf.find(q)
 	// If they are together, do nothing
 	if pID == qID {
+		fmt.Println(p, q, "already part of same group")
 		return
 	}
+	fmt.Println("union:", p, q)
 	// Otherwise make p link to q
-	for i := 0; i < len(uf.id); i++ {
-		if uf.id[i] == pID {
-			uf.id[i] = qID
+	for i := 0; i < len(qf.id); i++ {
+		if qf.id[i] == pID {
+			qf.id[i] = qID
 		}
 	}
-	uf.count--
+	qf.count--
 }
 
-func (uf *UF) QF_connected(p, q int) bool {
-	return uf.QF_find(p) == uf.QF_find(q)
+func (qf *quickFind) connected(p, q int) bool {
+	return qf.find(p) == qf.find(q)
 }
-// end quick find ---------------------------
+
+// quick union implementation
+
+type quickUnion struct {
+	*UF
+}
+
+func (qu *quickUnion) execute() {
+	for i := 0; i < len(dataSet); i = i + 2 {
+		p := dataSet[i]
+		q := dataSet[i+1]
+		qu.union(p, q)
+	}
+	fmt.Println(qu.count, "components in data set")
+}
+
+func (qu *quickUnion) find(p int) int {
+	// chase down the root node
+	for p != qu.id[p] {
+		p = qu.id[p]
+	}
+	return p
+}
+
+func (qu *quickUnion) union(p, q int) {
+	pRoot := qu.find(p)
+	qRoot := qu.find(q)
+	if pRoot == qRoot {
+		fmt.Println(pRoot, qRoot, "already part of same group")
+		return
+	}
+	fmt.Println("union:", p, q)
+	qu.id[pRoot] = qRoot
+	qu.count--
+}
 
 func Run() {
 	uf := createUF()
 	fmt.Printf("created Union Find data set of size: %v\n", uf.count)
-	quickFind(uf)
+	qf := quickFind{UF: uf}
+	fmt.Println("running 'Quick Find'")
+	qf.execute()
+	fmt.Println("running 'Union Find'")
+	uf = createUF()
+	qu := quickUnion{UF: uf}
+	qu.execute()
 }

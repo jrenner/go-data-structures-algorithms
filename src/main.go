@@ -8,6 +8,7 @@ import (
 	"queue"
 	"stack"
 	"union_find"
+	"selection_sort"
 )
 
 type module interface {
@@ -23,6 +24,7 @@ var (
 		"stack",
 		"linked_list",
 		"union_find",
+		"selection_sort",
 	}
 )
 
@@ -68,6 +70,8 @@ func runModule(name string) {
 		linked_list.Run()
 	case "union_find":
 		union_find.Run()
+	case "selection_sort":
+		selection_sort.Run()
 	}
 }
 

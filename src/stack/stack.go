@@ -23,10 +23,12 @@ func (s *Stack) push(item interface{}) {
 // remove most recently added item
 func (s *Stack) pop() interface{} {
 	if s.isEmpty() {
-	    return nil
+		return nil
 	}
-	removal := s.items[len(s.items) - 1]
-	s.items = s.items[:len(s.items) - 1]
+	i := len(s.items) - 1
+	removal := s.items[i]
+	s.items[i] = nil
+	s.items = s.items[:i]
 	return removal
 }
 
